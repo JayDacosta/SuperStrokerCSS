@@ -1,13 +1,18 @@
 import React from 'react';
 
-function FontFamilySelector({ onFontChange }) {
+function FontFamilySelector({ onFontChange, fonts }) {
   return (
-    <select onChange={e => onFontChange(e.target.value)}>
-      <option value="Arial">Arial</option>
-      <option value="Verdana">Verdana</option>
-      <option value="Georgia">Georgia</option>
-      {/* More font options can be added here */}
-    </select>
+    <div>
+      <label>Select Font Family: </label>
+      <select onChange={(e) => onFontChange(e.target.value)}>
+        <option value="">Select a font</option>
+        {fonts.map((font, index) => (
+          <option key={index} value={font.family}>
+            {font.family}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 

@@ -4,6 +4,8 @@ import FontFamilySelector from './components/FontFamilySelector';
 import FontSizeSelector from './components/FontSizeSelector';
 import FontWeightSelector from './components/FontWeightSelector';
 import ColorPicker from './components/ColorPicker';
+import axios from 'axios';
+
 
 
 
@@ -15,12 +17,16 @@ function App() {
   const [strokeSize, setStrokeSize] = useState(1);  // Default stroke size of 1
   const [generatedCSS, setGeneratedCSS] = useState('');
   const [fontFamily, setFontFamily] = useState('Arial');
+  const [fonts, setFonts] = useState([]);
+
 
 
   // Handler for font change
   const handleFontChange = (font) => {
+    console.log('Selected Font:', font);
     setFontFamily(font);
-};
+  };
+  
 
   const handleFontSizeChange = (size) => {
     setFontSize(size);
@@ -66,20 +72,40 @@ useEffect(() => {
   generateCSS();
 }, [strokeColor, strokeSize]);
 
+useEffect(() => {
+  const fetchFonts = async () => {
+    try {
+      const response = await axios.get(
+        'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyA495xCtw9fAX4yaxcTqIUn8wJyM1K2nSk'
+      );
+      const fontNames = response.data.items.map((font) => font.family);
+      console.log('Fetched Fonts:', fontNames);
+      setFonts(response.data.items);
+    } catch (error) {
+      console.error('Error fetching Google Fonts:', error);
+    }
+  };
 
-  const styles = {
-    fontFamily: fontFamily,
-    fontSize: `${fontSize}px`,
-    fontWeight: fontWeight,
-    color: fontColor,
-    textShadow: generatedCSS
+  fetchFonts();
+}, []);
+
+
+
+const styles = {
+  fontFamily: `${fontFamily}, Arial, sans-serif`,
+  fontSize: `${fontSize}px`,
+  fontWeight: fontWeight,
+  color: fontColor,
+  textShadow: generatedCSS
 };
 
 
+console.log(styles);
+
   return (
     <div className="App">
-      <LivePreview styles={styles} />
-      <FontFamilySelector onFontChange={handleFontChange} />
+      <LivePreview key={styles.fontFamily} styles={styles} />
+      <FontFamilySelector onFontChange={handleFontChange} fonts={fonts} />
       <FontSizeSelector fontSize={fontSize} onFontSizeChange={handleFontSizeChange} />
       <FontWeightSelector fontWeight={fontWeight} onFontWeightChange={handleFontWeightChange} />
       <ColorPicker label="Font Color" color={fontColor} onColorChange={handleFontColorChange} />
