@@ -39,27 +39,33 @@ function App() {
 
   const handleStrokeColorChange = (color) => {
     setStrokeColor(color);
-    // We'll integrate stroke logic here later
+
   };
 
   const generateCSS = () => {
     const shadows = [];
-    const strokeSizeInt = parseInt(strokeSize, 10);  
+    const strokeSizeEm = strokeSize / fontSize;  // Convert stroke size to ems relative to font size
     
-    for (let angle = 0; angle < 2 * Math.PI; angle += 1 / strokeSizeInt) {
-        const x = Math.cos(angle) * strokeSizeInt;
-        const y = Math.sin(angle) * strokeSizeInt;
-        shadows.push(`${x}px ${y}px 0 ${strokeColor}`);
+    // Correlate number of directions with stroke size
+    const NUM_DIRECTIONS = Math.max(36, strokeSize * 10); // For example, for strokeSize of 1, we get 10 directions, for 10 we get 100.
+    
+    const angleIncrement = 2 * Math.PI / NUM_DIRECTIONS;  // Calculate the angle increment based on the number of directions
+
+    for (let i = 0; i < NUM_DIRECTIONS; i++) {
+        const x = Math.cos(i * angleIncrement) * strokeSizeEm;
+        const y = Math.sin(i * angleIncrement) * strokeSizeEm;
+        shadows.push(`${x}em ${y}em 0 ${strokeColor}`);
     }
 
-    const css = `${shadows.join(', ')}`;  // Removed "text-shadow:" prefix
+    const css = `${shadows.join(', ')}`;
     setGeneratedCSS(css);
 };
 
 
-  useEffect(() => {
-    generateCSS();
-  }, [strokeColor, strokeSize]);
+useEffect(() => {
+  generateCSS();
+}, [strokeColor, strokeSize]);
+
 
   const styles = {
     fontFamily: fontFamily,
@@ -67,10 +73,8 @@ function App() {
     fontWeight: fontWeight,
     color: fontColor,
     textShadow: generatedCSS
-  };
-  
-  console.log(styles);
-  
+};
+
 
   return (
     <div className="App">
@@ -95,13 +99,14 @@ function App() {
       </div>
 
       <div>
-        <h3>Generated CSS:</h3>
-        <code>{generatedCSS}</code>
-        <button onClick={() => navigator.clipboard.writeText(generatedCSS)}>Copy to Clipboard</button>
-      </div>
-      
+    <h3>Generated CSS:</h3>
+    <code>
+  text-shadow: {generatedCSS.replace(/(\d+)px/g, (match, p1) => `${p1/fontSize}em`)}
+</code>
 
+<button onClick={() => navigator.clipboard.writeText(`text-shadow: ${generatedCSS}`)}>Copy to Clipboard</button>
 
+</div>
 
       {/* We'll add more components here as we create them */}
     </div>
