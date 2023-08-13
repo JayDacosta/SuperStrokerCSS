@@ -90,7 +90,7 @@ useEffect(() => {
         <input 
             type="range" 
             min="1" 
-            max="10" 
+            max="20" 
             value={strokeSize} 
             onChange={e => setStrokeSize(e.target.value)} 
           />
