@@ -1,5 +1,5 @@
 body {
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Arial', sans-serif;
 	background-color: #f0f4f8;
 	color: #333;
 	line-height: 1.6;
@@ -53,9 +53,10 @@ select {
 	display: flex;
 	justify-content: space-between;
 	gap: 10px;
+	flex-wrap: wrap;
 }
 .color-inputs .input-group {
-	flex: 1;
+	flex: 1 0 40%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
