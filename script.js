@@ -9,12 +9,14 @@ function updateText() {
 	const textColor = document.getElementById('textColor').value;
 	const strokeColor1 = document.getElementById('strokeColor1').value;
 	const strokeColor2 = document.getElementById('strokeColor2').value;
+	const backgroundColor = document.getElementById('backgroundColor').value;
 
 	const output = document.getElementById('output');
 	output.style.fontSize = `${fontSize}px`;
 	output.style.fontWeight = fontWeight;
 	output.style.fontFamily = fontFamily;
 	output.style.color = textColor;
+	output.style.backgroundColor = backgroundColor;
 	output.textContent = text;
 
 	let textShadow = '';
@@ -67,22 +69,20 @@ function swapStrokeColors() {
 	updateText();
 }
 
-// Fetch Google Fonts
-fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAOES8EmKhuJEnsn9kS1XKBpxxp-TgN8Jc')
-	.then((response) => response.json())
-	.then((data) => {
-		const fontSelect = document.getElementById('fontFamily');
-		data.items.forEach((font) => {
-			const option = document.createElement('option');
-			option.value = `'${font.family}', ${font.category}`;
-			option.textContent = font.family;
-			fontSelect.appendChild(option);
-		});
-		// Set default font and update text
-		fontSelect.value = "'Roboto', sans-serif";
-		updateText();
-	})
-	.catch((error) => console.error('Error fetching Google Fonts:', error));
+// Pre-loaded fonts
+const fontFamilies = ['Arial, sans-serif', 'Helvetica, sans-serif', 'Times New Roman, serif', 'Courier New, monospace', 'Georgia, serif', 'Palatino, serif', 'Garamond, serif', 'Bookman, serif', 'Comic Sans MS, cursive', 'Trebuchet MS, sans-serif'];
+
+const fontSelect = document.getElementById('fontFamily');
+fontFamilies.forEach((font) => {
+	const option = document.createElement('option');
+	option.value = font;
+	option.textContent = font.split(',')[0];
+	fontSelect.appendChild(option);
+});
+
+// Set default font and update text
+fontSelect.value = 'Arial, sans-serif';
+updateText();
 
 // Add event listeners to all input fields
 const inputs = document.querySelectorAll('input, select');
