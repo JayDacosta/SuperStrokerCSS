@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SUPER STROKER CSS</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<h1>SUPER STROKER CSS</h1>
+		<h2>A (font-size relative) Double Stroke Generator</h2>
+		<div class="layout">
+			<div class="container">
+				<div class="input-group">
+					<label for="text">Text:</label>
+					<input type="text" id="text" value="Sample Text" />
+				</div>
+				<div class="input-group">
+					<label for="fontSize">Font Size (px):</label>
+					<input type="number" id="fontSize" value="48" min="10" max="200" />
+				</div>
+				<div class="input-group">
+					<label for="fontWeight">Font Weight:</label>
+					<select id="fontWeight">
+						<option value="300">Light (300)</option>
+						<option value="400" selected>Regular (400)</option>
+						<option value="700">Bold (700)</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="fontFamily">Font Family:</label>
+					<select id="fontFamily"></select>
+				</div>
+				<div class="input-group">
+					<label for="strokeType">Stroke Type:</label>
+					<select id="strokeType">
+						<option value="single">Single</option>
+						<option value="double">Double</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<label for="strokeWidth1">Stroke 1 Width (em):</label>
+					<input type="number" id="strokeWidth1" value="0.05" min="0.01" max="0.5" step="0.01" />
+				</div>
+				<div class="input-group">
+					<label for="strokeWidth2">Stroke 2 Width (em):</label>
+					<input type="number" id="strokeWidth2" value="0.1" min="0.01" max="0.5" step="0.01" />
+				</div>
+				<div class="color-inputs">
+					<div class="input-group">
+						<label for="textColor">Text Color:</label>
+						<input type="color" id="textColor" value="#000000" />
+					</div>
+					<div class="input-group">
+						<label for="backgroundColor">Background Color:</label>
+						<input type="color" id="backgroundColor" value="#ffffff" />
+					</div>
+					<div class="input-group">
+						<label for="strokeColor1">Stroke 1 Color:</label>
+						<input type="color" id="strokeColor1" value="#ff0000" />
+					</div>
+					<div class="input-group">
+						<label for="strokeColor2">Stroke 2 Color:</label>
+						<input type="color" id="strokeColor2" value="#0000ff" />
+					</div>
+				</div>
+				<button onclick="swapStrokeColors()">Swap Stroke Colors</button>
+			</div>
+			<div class="output-container">
+				<div id="output">Sample Text</div>
+				<h2>CSS Output:</h2>
+				<pre id="cssOutput"></pre>
+				<button onclick="copyCSS()">Copy CSS</button>
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>
