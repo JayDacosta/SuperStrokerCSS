@@ -30,7 +30,9 @@ function updateText() {
 	updateCSSOutput(textShadow);
 }
 
-function getOptimizedStroke(width, color, steps = 16) {
+function getOptimizedStroke(width, color) {
+	const baseSteps = 16;
+	const steps = Math.max(baseSteps, Math.floor(baseSteps * width * 20)); // Increase steps for larger widths
 	let shadow = '';
 	for (let i = 0; i < steps; i++) {
 		const angle = (i / steps) * 2 * Math.PI;
@@ -43,8 +45,8 @@ function getOptimizedStroke(width, color, steps = 16) {
 }
 
 function getOptimizedDoubleStroke(width1, color1, width2, color2) {
-	const outerStroke = getOptimizedStroke(width2, color2, 32);
-	const innerStroke = getOptimizedStroke(width1, color1, 32);
+	const outerStroke = getOptimizedStroke(width2, color2);
+	const innerStroke = getOptimizedStroke(width1, color1);
 	return outerStroke + ',' + innerStroke;
 }
 
